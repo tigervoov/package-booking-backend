@@ -1,0 +1,9 @@
+---
+# Form running gradle locally
+spring:
+  profiles:
+    active: local
+
+
+server:
+  port: 9999
