@@ -30,6 +30,11 @@ public class OrderController {
         String message=orderService.addExpressOrder(newItem);
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
+    @PutMapping("/{ordernumber}")
+    public ResponseEntity expressTakeOrdersTime(@PathVariable String ordernumber,@RequestBody Order order){
+        String message=orderService.expressOrdersTime(ordernumber,order);
+        return ResponseEntity.ok().body(message);
+    }
 
 
 }

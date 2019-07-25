@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,5 +33,19 @@ public class OrderService {
             orderRepository.saveAndFlush(newItem);
             return  "添加成功";
         }
+    }
+
+    public String expressOrdersTime(String order_number,Order order) {
+        List<Order> listOrders=getAllOrders();
+        List<Order> orderItem=listOrders.stream().filter(item->item.getOrder_number().equals(order_number))
+                .collect(Collectors.toList());
+        if(orderItem.get(0).getOrder_status().equals("未取件")){
+            orderItem.get(0).setOrder_status("已预约");
+            orderItem.get(0).setAppointment_time(order.getAppointment_time());
+            return "预约成功";
+        }else{
+            return "此订单不能进行此操作";
+        }
+
     }
 }
