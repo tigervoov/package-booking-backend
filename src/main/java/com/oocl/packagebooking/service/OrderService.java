@@ -30,6 +30,7 @@ public class OrderService {
         if(itemQuantity>0){
             return "此快递单已添加，请勿重复添加";
         }else {
+            newItem.setOrder_status("未预约");
             orderRepository.saveAndFlush(newItem);
             return  "添加成功";
         }
@@ -39,7 +40,7 @@ public class OrderService {
         List<Order> listOrders=getAllOrders();
         List<Order> orderItem=listOrders.stream().filter(item->item.getOrder_number().equals(order_number))
                 .collect(Collectors.toList());
-        if(orderItem.get(0).getOrder_status().equals("未取件")){
+        if(orderItem.get(0).getOrder_status().equals("未预约")){
             orderItem.get(0).setOrder_status("已预约");
             orderItem.get(0).setAppointment_time(order.getAppointment_time());
             orderRepository.saveAndFlush(orderItem.get(0));
@@ -50,11 +51,9 @@ public class OrderService {
     }
 
     public void changeStatusToReceivedById(String orderid) {
-        List<Order> listOrders=getAllOrders();
-        List<Order> orderItem=listOrders.stream().filter(item->item.getId().equals(orderid))
-                .collect(Collectors.toList());
-        listOrders.get(0).setOrder_status("已取件");
-        listOrders.get(0).setAppointment_time(0);
-        orderRepository.saveAndFlush(listOrders.get(0));
+        Order item=orderRepository.findById(orderid).get();
+        item.setOrder_status("已取件");
+        item.setAppointment_time(0);
+        orderRepository.saveAndFlush(item);
     }
 }
