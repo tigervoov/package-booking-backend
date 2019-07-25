@@ -30,6 +30,13 @@ public class Order {
     public Order() {
     }
 
+    public Order(String order_number, String receiver, String receiver_phone, String order_status) {
+        this.order_number = order_number;
+        this.receiver = receiver;
+        this.receiver_phone = receiver_phone;
+        this.order_status = order_status;
+    }
+
     public Order(String order_number, String receiver, String receiver_phone, String order_status, long appointment_time) {
         this.order_number = order_number;
         this.receiver = receiver;

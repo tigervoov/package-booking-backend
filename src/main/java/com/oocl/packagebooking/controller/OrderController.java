@@ -26,9 +26,9 @@ public class OrderController {
     }
 
     @PostMapping(produces = {"application/json"})
-    public ResponseEntity addNewItem(@RequestBody Order newItem){
-        orderService.addExpressOrder(newItem);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity addNewOrders(@RequestBody Order newItem){
+        String message=orderService.addExpressOrder(newItem);
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
 

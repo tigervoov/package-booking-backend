@@ -41,9 +41,23 @@ public class PackageBookingApplicationTests {
 
 		//when
 		String result=this.mockMvc.perform(get("/expressOrders")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-//		JSONObject returnJsonObject=new JSONObject(resultMokmvc);
 		JSONArray jsonArray=new JSONArray(result);
-		Assertions.assertEquals(1,jsonArray.length());
 
+		//then
+		Assertions.assertEquals(1,jsonArray.length());
+	}
+	@Test
+	public void should_return_success_message_when_request_addNewOrders() throws Exception {
+
+		//given
+		Order order=new Order("201907250001","mike","13750000123","未取件");
+		JSONObject jsonObject=new JSONObject(order);
+
+		//when
+		String result=this.mockMvc.perform(post("/expressOrders").content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andReturn().getResponse().getContentAsString();
+
+		//then
+		Assertions.assertEquals("添加成功",result);
 	}
 }

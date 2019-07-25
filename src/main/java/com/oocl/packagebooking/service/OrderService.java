@@ -27,10 +27,10 @@ public class OrderService {
             item.getOrder_number().equals(newItem.getOrder_number())
         ).count();
         if(itemQuantity>0){
-            return "此订单号已预约";
+            return "此快递单已添加，请勿重复添加";
         }else {
             orderRepository.saveAndFlush(newItem);
-            return  "成功预约";
+            return  "添加成功";
         }
     }
 }
