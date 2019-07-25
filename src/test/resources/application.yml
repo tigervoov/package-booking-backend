@@ -1,0 +1,15 @@
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+      hibernate: DEBUG
+spring:
+  datasource:
+    url:  jdbc:h2:mem:text
+  jpa:
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true

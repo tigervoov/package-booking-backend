@@ -25,9 +25,17 @@ public class Order {
 
     private String order_status;
 
-    private String appointment_time;
+    private long appointment_time;
 
     public Order() {
+    }
+
+    public Order(String order_number, String receiver, String receiver_phone, String order_status, long appointment_time) {
+        this.order_number = order_number;
+        this.receiver = receiver;
+        this.receiver_phone = receiver_phone;
+        this.order_status = order_status;
+        this.appointment_time = appointment_time;
     }
 
     public String getId() {
@@ -70,11 +78,11 @@ public class Order {
         this.order_status = order_status;
     }
 
-    public String getAppointment_time() {
+    public long getAppointment_time() {
         return appointment_time;
     }
 
-    public void setAppointment_time(String appointment_time) {
+    public void setAppointment_time(long appointment_time) {
         this.appointment_time = appointment_time;
     }
 }
