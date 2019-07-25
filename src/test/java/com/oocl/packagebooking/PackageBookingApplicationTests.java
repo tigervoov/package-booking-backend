@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -74,20 +76,21 @@ public class PackageBookingApplicationTests {
 		Assertions.assertEquals("添加成功",result);
 	}
 	@Test
-	public void should_return_success_message_when_request_expressTakeOrdersTime() throws Exception {
+	public void should_return_200_when_request_expressTakeOrdersTime() throws Exception {
 
 		//given
-		Order order=new Order("201907250001","mike","13750000123","未取件");
+		Order order=new Order("201907250001","mike","13750000123","已预约",new Date().getTime());
 		orderRepository.saveAndFlush(order);
 
-		Order sendRequestObj=new Order("201907250001",new Date().getTime());
-		JSONObject jsonObject=new JSONObject(sendRequestObj);
+		List<Order> orders=orderRepository.findAll();
+		List<Order> items=orders.stream().filter(item->item.getOrder_number().equals("201907250001")).collect(Collectors.toList());
+		String requestId=items.get(0).getId();
 
-		//when
-		String result=this.mockMvc.perform(put("/expressOrders/201907250001").content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andReturn().getResponse().getContentAsString();
+//		JSONObject jsonObject=new JSONObject(sendRequestObj);
 
-		//then
-		Assertions.assertEquals("预约成功",result);
+		//when+then
+		this.mockMvc.perform(patch("/expressOrders/"+requestId)).andExpect(status().isOk());
+
+
 	}
 }

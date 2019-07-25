@@ -35,6 +35,11 @@ public class OrderController {
         String message=orderService.expressOrdersTime(ordernumber,order);
         return ResponseEntity.ok().body(message);
     }
+    @PatchMapping("/{orderid}")
+    public ResponseEntity changeOrdersStatusToReceived(@PathVariable String orderid){
+        orderService.changeStatusToReceivedById(orderid);
+        return ResponseEntity.ok().build();
+    }
 
 
 }
